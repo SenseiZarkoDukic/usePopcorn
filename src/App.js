@@ -51,62 +51,28 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
-  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen1, setIsOpen1] = useState(true);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
 
   return (
     <>
-      <NavBar query={query} onQuery={setQuery} movies={movies} />
+      <NavBar movies={movies} />
 
-      <Main
-        isOpen1={isOpen1}
-        onIsOpen1={setIsOpen1}
-        movies={movies}
-        isOpen2={isOpen2}
-        onIsOpen2={setIsOpen2}
-        watched={watched}
-        avgImdbRating={avgImdbRating}
-        avgRuntime={avgRuntime}
-        avgUserRating={avgUserRating}
-      />
+      <Main movies={movies} />
     </>
   );
 }
 
-function Main({
-  isOpen1,
-  onIsOpen1,
-  movies,
-  isOpen2,
-  onIsOpen2,
-  watched,
-  avgImdbRating,
-  avgRuntime,
-  avgUserRating,
-}) {
+function Main({ movies }) {
   return (
     <main className="main">
-      <Movies isOpen1={isOpen1} onIsOpen1={onIsOpen1} movies={movies} />
-      <MoviesWatched
-        isOpen2={isOpen2}
-        onIsOpen2={onIsOpen2}
-        watched={watched}
-        avgImdbRating={avgImdbRating}
-        avgRuntime={avgRuntime}
-        avgUserRating={avgUserRating}
-      />
+      <Movies movies={movies} />
+      <MoviesWatched />
     </main>
   );
 }
 
-function NavBar({ query, onQuery, movies }) {
+function NavBar({ movies }) {
+  const [query, setQuery] = useState("");
   return (
     <nav className="nav-bar">
       <div className="logo">
@@ -118,7 +84,7 @@ function NavBar({ query, onQuery, movies }) {
         type="text"
         placeholder="Search movies..."
         value={query}
-        onChange={(e) => onQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)}
       />
       <p className="num-results">
         Found <strong>{movies.length}</strong> results
@@ -127,10 +93,14 @@ function NavBar({ query, onQuery, movies }) {
   );
 }
 
-function Movies({ isOpen1, onIsOpen1, movies }) {
+function Movies({ movies }) {
+  const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
-      <button className="btn-toggle" onClick={() => onIsOpen1((open) => !open)}>
+      <button
+        className="btn-toggle"
+        onClick={() => setIsOpen1((open) => !open)}
+      >
         {isOpen1 ? "–" : "+"}
       </button>
       {isOpen1 && (
@@ -153,27 +123,21 @@ function Movies({ isOpen1, onIsOpen1, movies }) {
   );
 }
 
-function MoviesWatched({
-  isOpen2,
-  onIsOpen2,
-  watched,
-  avgImdbRating,
-  avgRuntime,
-  avgUserRating,
-}) {
+function MoviesWatched() {
+  const [watched, setWatched] = useState(tempWatchedData);
+  const [isOpen2, setIsOpen2] = useState(true);
+
   return (
     <div className="box">
-      <button className="btn-toggle" onClick={() => onIsOpen2((open) => !open)}>
+      <button
+        className="btn-toggle"
+        onClick={() => setIsOpen2((open) => !open)}
+      >
         {isOpen2 ? "–" : "+"}
       </button>
       {isOpen2 && (
         <>
-          <Summary
-            watched={watched}
-            avgImdbRating={avgImdbRating}
-            avgRuntime={avgRuntime}
-            avgUserRating={avgUserRating}
-          />
+          <Summary watched={watched} />
           <ul className="list">
             {watched &&
               watched.map((movie) => (
@@ -203,7 +167,11 @@ function MoviesWatched({
   );
 }
 
-function Summary({ watched, avgImdbRating, avgRuntime, avgUserRating }) {
+function Summary({ watched }) {
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
   return (
     <div className="summary">
       <h2>Movies you watched</h2>
