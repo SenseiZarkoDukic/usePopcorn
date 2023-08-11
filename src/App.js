@@ -135,33 +135,32 @@ function Movies({ isOpen1, onIsOpen1, movies }) {
       </button>
       {isOpen1 && (
         <ul className="list">
-          {movies &&
-            movies?.map((movie) => (
-              <li key={movie.imdbID}>
-                <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                <h3>{movie.Title}</h3>
-                <div>
-                  <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
+          {movies?.map((movie) => (
+            <li key={movie.imdbID}>
+              <img src={movie.Poster} alt={`${movie.Title} poster`} />
+              <h3>{movie.Title}</h3>
+              <div>
+                <p>
+                  <span>🗓</span>
+                  <span>{movie.Year}</span>
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       )}
     </div>
   );
 }
 
-function MoviesWatched(
+function MoviesWatched({
   isOpen2,
   onIsOpen2,
   watched,
   avgImdbRating,
   avgRuntime,
-  avgUserRating
-) {
+  avgUserRating,
+}) {
   return (
     <div className="box">
       <button className="btn-toggle" onClick={() => onIsOpen2((open) => !open)}>
@@ -173,7 +172,7 @@ function MoviesWatched(
             watched={watched}
             avgImdbRating={avgImdbRating}
             avgRuntime={avgRuntime}
-            avgUserRating={avgImdbRating}
+            avgUserRating={avgUserRating}
           />
           <ul className="list">
             {watched &&
@@ -204,7 +203,7 @@ function MoviesWatched(
   );
 }
 
-function Summary(watched, avgImdbRating, avgRuntime, avgUserRating) {
+function Summary({ watched, avgImdbRating, avgRuntime, avgUserRating }) {
   return (
     <div className="summary">
       <h2>Movies you watched</h2>
