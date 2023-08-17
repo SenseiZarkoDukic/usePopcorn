@@ -1,4 +1,4 @@
-import { hover } from "@testing-library/user-event/dist/hover";
+import PropTypes from "prop-types";
 import { useState } from "react";
 
 const containerStyle = {
@@ -9,6 +9,17 @@ const containerStyle = {
 
 const starContainerStyle = {
   display: "flex",
+};
+
+StarRating.propTypes = {
+  // maxRating: PropTypes.number.isRequired,
+  maxRating: PropTypes.number,
+  defaultRating: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  classsName: PropTypes.string,
+  messages: PropTypes.array,
+  onSetRating: PropTypes.func,
 };
 
 export default function StarRating({
