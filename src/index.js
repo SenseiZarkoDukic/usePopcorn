@@ -6,6 +6,7 @@ import { useState } from "react";
 
 // import StarRating from "./StarRating";
 import App from "./App";
+import "./index.css";
 
 // function Test() {
 //   const [movieRating, setMovieRating] = useState(0);
