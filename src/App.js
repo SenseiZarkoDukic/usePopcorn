@@ -53,12 +53,14 @@ const average = (arr) =>
 const KEY = "c67106a4";
 
 export default function App() {
-  const tempQuery = "interstellar";
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  const tempQuery = "interstellar";
   /*
   useEffect(function () {
     console.log("After initial render");
