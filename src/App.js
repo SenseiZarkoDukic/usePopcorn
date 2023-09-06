@@ -53,38 +53,59 @@ const average = (arr) =>
 const KEY = "c67106a4";
 
 export default function App() {
+  const tempQuery = "interstellar";
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
-  const tempQuery = "interstellar";
+  /*
+  useEffect(function () {
+    console.log("After initial render");
+  }, []);
 
   useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${tempQuery}`
-        );
-        if (!res.ok)
-          throw new Error("Somethoing went wrong with fetching movies");
+    console.log("After every render");
+  });
 
-        const data = await res.json();
+  useEffect(
+    function () {
+      console.log("D");
+    },
+    [query]
+  );
+  console.log("During render");
+  */
 
-        if (data.Response === "False") throw new Error("Movie not found");
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          );
+          if (!res.ok)
+            throw new Error("Somethoing went wrong with fetching movies");
 
-        setMovies(data.Search);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+          const data = await res.json();
+
+          if (data.Response === "False") throw new Error("Movie not found");
+
+          setMovies(data.Search);
+        } catch (err) {
+          console.error(err.message);
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
 
-    fetchMovies();
-  }, []);
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
