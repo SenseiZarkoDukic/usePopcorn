@@ -79,6 +79,13 @@ export default function App() {
   console.log("During render");
   */
 
+  function handleSelectMovie(id) {
+    setSelectedId(id);
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
   useEffect(
     function () {
       async function fetchMovies() {
@@ -126,7 +133,9 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MoviesList movies={movies} />} */}
           {isLoading && <Loader />}
-          {!isLoading && !error && <MoviesList movies={movies} />}
+          {!isLoading && !error && (
+            <MoviesList movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
@@ -233,19 +242,19 @@ function Box({ children }) {
 //   );
 // }
 
-function MoviesList({ movies }) {
+function MoviesList({ movies, onSelectMovie }) {
   return (
     <ul className="list">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
       ))}
     </ul>
   );
 }
 
-function Movie({ movie }) {
+function Movie({ movie, onSelectMovie }) {
   return (
-    <li>
+    <li onClick={() => onSelectMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
