@@ -112,7 +112,7 @@ export default function App() {
             { signal: controller.signal }
           );
           if (!res.ok)
-            throw new Error("Somethoing went wrong with fetching movies");
+            throw new Error("Something went wrong with fetching movies");
 
           const data = await res.json();
 
